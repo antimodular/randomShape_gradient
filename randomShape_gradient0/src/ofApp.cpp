@@ -1,19 +1,25 @@
 #include "ofApp.h"
 
 
-vector<ofPolyline> pLine;
+
 float radialNoiseCursor;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    ofBackground(255);
+    ofSetVerticalSync(true);
+    
     pix.allocate(ofGetWidth(), ofGetHeight(), 4);
     img.allocate(ofGetWidth(), ofGetHeight(),OF_IMAGE_COLOR); //_ALPHA);
     
+     vector<ofPolyline> pLine;
+    
     ofPath myEllipse;
-    myEllipse.ellipse(ofGetWidth()/2, ofGetHeight()/2, 100, 200);
+    myEllipse.ellipse(ofGetWidth()/2, ofGetHeight()/2, 200, 400);
+    myEllipse.setCircleResolution(100);
     pLine = myEllipse.getOutline();
   
+   
     for(int i=1 ; i<pLine[0].size(); i++){
         myShape.addVertex(pLine[0][i]);
     }
@@ -39,20 +45,20 @@ void ofApp::draw(){
 void ofApp::polylineGradient(){
     
 
-    
-    ofLog()<<"pLine.size "<<pLine.size();
-    
-    int a = 1;
+  
 
     float noiseStep = 0.2; //0.01 - 0.15
     float noiseAmount = 0.8; //0-1
     
-    for(int i=0; i<pLine[0].size();i++){
+    for(int i=0; i<myShape.size();i++){
 //        pLine[0][i] += ofRandom(-5,5);
-        myShape[i] += noiseAmount * ofSignedNoise( radialNoiseCursor ) * 10;
+        myShape[i] += noiseAmount * ofSignedNoise( radialNoiseCursor ) * 5;
         radialNoiseCursor += noiseStep;
         
     }
+    
+      int a = 1;
+//    pix.clear();
     for(int x = 0; x<ofGetWidth()-a; x+=a){
         for(int y = 0; y<ofGetHeight()-a; y+=a){
             ofPoint myP = ofPoint(x,y);
@@ -61,14 +67,16 @@ void ofApp::polylineGradient(){
 
             ofPoint closestPoint = myShape.getClosestPoint(myP);
             float dist = closestPoint.distance(myP);
-            int alpha = ofMap(dist,0,ofGetWidth()/2,0,255,true);
-  
+//            int alpha = ofMap(dist,0,ofGetWidth()/2,0,255,true);
+int alpha = ofMap(dist,0,ofGetWidth()/10,255,0,true);
 //            ofDrawLine(closestPoint,myP);
                 
 
                 pix.setColor(x, y, ofColor(255,0,0,alpha));
 
 
+            }else{
+                pix.setColor(x, y, ofColor(255));
             }
         }
     }
@@ -78,10 +86,11 @@ void ofApp::polylineGradient(){
 
     ofSetColor(255);
     img.draw(0, 0);
-//    ofPoint myP(mouseX,mouseY);
-//    ofPoint closestPoint = myShape.getClosestPoint(myP);
-//    ofDrawLine(closestPoint,myP);
-    ofSetColor(255,0,0);
+    ofPoint myP(mouseX,mouseY);
+    ofPoint closestPoint = myShape.getClosestPoint(myP);
+    ofSetColor(0,0,255);
+    ofDrawLine(closestPoint,myP);
+    
      myShape.draw();
     
 }

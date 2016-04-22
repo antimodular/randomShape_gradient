@@ -7,3 +7,4 @@ forum discussion: <https://forum.openframeworks.cc/t/random-shape-gradient/23244
 Screenshots
 -----------------
 ![](https://raw.githubusercontent.com/antimodular/randomShape_gradient/master/Screen%20Shot%202016-04-21%20at%209.50.22%20PM.jpg)
+![](https://raw.githubusercontent.com/antimodular/randomShape_gradient/master/Screen%20Shot%202016-04-21%20at%209.50.22%20PM.jpg)
